@@ -181,18 +181,15 @@ if(digitalRead(7)==LOW&&sel2==2){
 //Loop
 void loop()
 {
-  calculateMovement();
-  draw();
-  
-//if(sel==1){
-  //pong();
-//}
-//else if(sel==2){
-  //simon();     
-//}
-//else if(sel==3){
-  //error();     
-//}
+  if(sel==1){
+    pong();
+  }
+  else if(sel==2){
+    simon();     
+  }
+  else if(sel==3){
+    error();     
+  }
 
 }
 
