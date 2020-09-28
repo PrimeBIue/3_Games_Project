@@ -1,4 +1,3 @@
-
 #include <SPI.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
@@ -164,15 +163,12 @@ display.display();
 }
 if(digitalRead(7)==LOW&&sel2==0){
   sel=1;
-  pong();
 }
 if(digitalRead(7)==LOW&&sel2==1){
   sel=2;
-  simon();
 }
 if(digitalRead(7)==LOW&&sel2==2){
   sel=3;
-  error();
 }
 
 
@@ -185,15 +181,18 @@ if(digitalRead(7)==LOW&&sel2==2){
 //Loop
 void loop()
 {
-if(sel==1){
-  pong();
-}
-else if(sel==2){
-  simon();     
-}
-else if(sel==3){
-  error();     
-}
+  calculateMovement();
+  draw();
+  
+//if(sel==1){
+  //pong();
+//}
+//else if(sel==2){
+  //simon();     
+//}
+//else if(sel==3){
+  //error();     
+//}
 
 }
 
@@ -203,8 +202,8 @@ void calculateMovement()
   int controlA = analogRead(CONTROL_A);
   int controlB = analogRead(CONTROL_B);
 
-  paddleLocationA = map(controlA, 0, 1024, 0, SCREEN_HEIGHT - PADDLE_HEIGHT);
-  paddleLocationB = map(controlB, 0, 1024, 0, SCREEN_HEIGHT - PADDLE_HEIGHT);
+  paddleLocationA = map(controlA, 0, 1023, 0, SCREEN_HEIGHT - PADDLE_HEIGHT);
+  paddleLocationB = map(controlB, 0, 1023, 0, SCREEN_HEIGHT - PADDLE_HEIGHT);
 
   int paddleSpeedA = paddleLocationA - lastPaddleLocationA;
   int paddleSpeedB = paddleLocationB - lastPaddleLocationB;
@@ -215,13 +214,13 @@ void calculateMovement()
   //bounce from top and bottom
   if (ballY >= SCREEN_HEIGHT - BALL_SIZE || ballY <= 0) {
     ballSpeedY *= -1;
-    soundBounce();
+    //soundBounce();
   }
 
   //bounce from paddle A
   if (ballX >= PADDLE_PADDING && ballX <= PADDLE_PADDING+BALL_SIZE && ballSpeedX < 0) {
     if (ballY > paddleLocationA - BALL_SIZE && ballY < paddleLocationA + PADDLE_HEIGHT) {
-      soundBounce();
+      //soundBounce();
       ballSpeedX *= -1;
     
       addEffect(paddleSpeedA);
@@ -232,7 +231,7 @@ void calculateMovement()
   //bounce from paddle B
   if (ballX >= SCREEN_WIDTH-PADDLE_WIDTH-PADDLE_PADDING-BALL_SIZE && ballX <= SCREEN_WIDTH-PADDLE_PADDING-BALL_SIZE && ballSpeedX > 0) {
     if (ballY > paddleLocationB - BALL_SIZE && ballY < paddleLocationB + PADDLE_HEIGHT) {
-      soundBounce();
+      //soundBounce();
       ballSpeedX *= -1;
     
       addEffect(paddleSpeedB);
@@ -251,7 +250,7 @@ void calculateMovement()
       ballX = SCREEN_WIDTH / 4 * 3;
     }
 
-    soundPoint();   
+    //soundPoint();   
   }
 
   //set last paddle locations
@@ -356,7 +355,7 @@ void centerPrint(char *text, int y, int size)
 void pong(){
 
   calculateMovement();
-    draw();
+  draw();
 } 
 
 void simon(){
@@ -541,4 +540,3 @@ void error(){
   display.display();
 
 }
-
